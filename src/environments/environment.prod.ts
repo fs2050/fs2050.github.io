@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
- https://github.com/fs2050/backangular/blob/main/db.json
+URL: https://my-json-server.typicode.com/fs2050/backangular/products
 
 
 
