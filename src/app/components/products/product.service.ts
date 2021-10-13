@@ -4,13 +4,15 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient } from "@angular/common/http";
 import { Product } from "./product.model";
 import { EMPTY, Observable } from "rxjs";
+import { environment} from "../../../environments/environment.prod";
 
 //esse service é um SINGLETON
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-  baseUrl = "http://localhost:3000/products";
+  //baseUrl = "http://localhost:3000/products";
+  private URL: string = environment.URL;
   constructor(private snackBar: MatSnackBar, private http: HttpClient) {}
   //Snackbar mostra mensagem no canto superior direito
   showMessage(msg: string, isError: boolean = false): void {
@@ -23,7 +25,7 @@ export class ProductService {
   }
   //req. dentro do back para criar o produto
   create(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.baseUrl, product).pipe(
+    return this.http.post<Product>(this.URL, product).pipe(
       map((obj) => obj),
       catchError((e) => this.errorHandler(e))
     );
@@ -32,14 +34,14 @@ export class ProductService {
 
   //req. dentro do back para criar o produto
   read(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl).pipe(
+    return this.http.get<Product[]>(this.URL).pipe(
       map((obj) => obj),
       catchError((e) => this.errorHandler(e)));
   }
 
   //req. dentro do back para criar o produto
   readById(id: string | null): Observable<Product> {
-    const url = `${this.baseUrl}/${id}`;
+    const url = `${this.URL}/${id}`;
 
     return this.http.get<Product>(url).pipe(
       map((obj) => obj),
@@ -48,7 +50,7 @@ export class ProductService {
 
   //req. dentro do back para criar o produto
   update(product: Product): Observable<Product> {
-    const url = `${this.baseUrl}/${product.id}`;
+    const url = `${this.URL}/${product.id}`;
 
     return this.http.put<Product>(url, product).pipe(
       map((obj) => obj),
@@ -56,7 +58,7 @@ export class ProductService {
   }
 
   delete(id: number | undefined): Observable<Product> {
-    const url = `${this.baseUrl}/${id}`;
+    const url = `${this.URL}/${id}`;
     return this.http.delete<Product>(url).pipe(
       map((obj) => obj),
       catchError((e) => this.errorHandler(e)));
